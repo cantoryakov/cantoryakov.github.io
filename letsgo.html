@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>Quiz</title>
+</head>
+<body style="font-family:sans-serif" onkeydown="if(event.which==37) {checkanswer(0)} else if (event.which==39){checkanswer(1)} else return false">
+<script language="javascript">
+function shuffleArray ( array ) {
+    var counter = array.length, temp, index;
+    // While there are elements in the array
+    while ( counter > 0 ) {
+        // Pick a random index
+        index = Math.floor( Math.random() * counter );
+
+        // Decrease counter by 1
+        counter--;
+
+        // And swap the last element with it
+        temp = array[ counter ];
+        array[ counter ] = array[ index ];
+        array[ index ] = temp;
+    }
+    return array;
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+var originalArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
+var answers = ["whole note","half note","quarter note","eighth note","two eighth notes","sixteenth note","four sixteenth notes","whole rest","half rest","quarter rest","eighth rest","sixteenth rest","staff","treble clef","time signature","flat","sharp","chord symbols","key signature","bar lines","final bar line","repeat sign","middle C","EGBDF","DFACE","512th note"];
+var shuffledArray = shuffleArray( originalArray );
+var answerside = getRandomInt(2);
+
+function checkanswer(n){
+if ( n == answerside) { document.getElementById('answerhead').insertAdjacentHTML("beforeend","&#128525;")}  else { document.getElementById('answerhead').insertAdjacentHTML("beforeend","&#128553;")} 
+}
+
+</script>
+<center><h1 id="answerhead">quarter note</h1>
+<h1 id="smiley"></h1>
+<img id="left" style="max-width:40%;height:auto; border:10px solid green;border-radius:50px" onclick="checkanswer(0)">
+<img id="right" style="max-width:40%;height:auto; border:10px solid green;border-radius:50px" onclick="checkanswer(1)">
+<script>
+var correctanswertext=answers[originalArray[answerside]];
+document.getElementById('answerhead').innerHTML=correctanswertext;
+document.getElementById('left').src=shuffledArray[0]+'.png';
+document.getElementById('right').src=shuffledArray[1]+'.png'
+var msg = new SpeechSynthesisUtterance();
+msg.text = correctanswertext;
+window.speechSynthesis.speak(msg);
+</script>
+</center>
