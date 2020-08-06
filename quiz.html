@@ -3,42 +3,60 @@
   <link rel="stylesheet" href="jqueryui/jquery-ui.css">
 <script src="jqueryui/jquery.js"></script>
 <script src="jqueryui/jquery-ui.js"></script>
-<style>
-.ui-widget-overlay.modal-opened{
-  background: rgb(0, 0, 0);
-  opacity: 0.5;
-  filter: Alpha(Opacity=50);         
-}</style>
 <title>Quiz</title>
 </head>
 <body style="font-family:sans-serif" onkeydown="if(event.which==37 || event.which==38) {checkanswer(0)} else if (event.which==39 || event.which==40){checkanswer(1)} else return false">
 <script language="javascript">
-function shuffleArray ( array ) { var counter = array.length, temp, index;while ( counter > 0 ) {index = Math.floor( Math.random() * counter );counter--;temp = array[ counter ];array[ counter ] = array[ index ];array[ index ] = temp;}return array;}
+function shuffleArray ( array ){var counter = array.length, temp, index;while ( counter > 0 ) {index = Math.floor( Math.random() * counter );counter--;temp = array[ counter ];array[ counter ] = array[ index ];array[ index ] = temp;}return array;}
 function getRandomInt(max) {return Math.floor(Math.random() * Math.floor(max));}
+function removeItemOnce(arr, value) {
+  var index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
 var goodjob = true;
 var originalArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
-
-//initialize the game
 var answers = ["whole note","half note","quarter note","eighth note","two eighth notes","sixteenth note","four sixteenth notes","whole rest","half rest","quarter rest","eighth rest","sixteenth rest","staff","treble clef","time signature","flat","sharp","chord symbols","key signature","bar lines","final bar line","repeat sign","middle C","EGBDF","DFACE","512th note"];
-var shuffledArray = shuffleArray( originalArray );
+var shuffledArray;
+var answerside = 0;
+var lastquestion = false
+var levelchoice=0
+var finalquestion=""
+var alldone=false
 
-var answerside = 0
+function initializegame(levelchosen) {
+levelchoice=levelchosen;
+originalArray.splice(levelchosen);
+shuffledArray = originalArray.slice();
+shuffledArray = shuffleArray(shuffledArray);
+document.getElementById('selectlevel').style.display="none";
+document.getElementById('game').style.display="block"; 
+initializequestion()
+}
+
+
 
 //initialize each question
 function initializequestion() {
-document.getElementById('selectlevel').style.display="none";
-document.getElementById('game').style.display="block";
 document.getElementById('left').style.opacity="1";
 document.getElementById('right').style.opacity="1";
 goodjob=true;
+if (shuffledArray.length==1) {lastquestion=true};
+if (lastquestion) {
+	mostofit=removeItemOnce(originalArray,shuffledArray);
+	shuffledArray.push(mostofit[Math.floor(Math.random() * mostofit.length)])
+	finalquestion=". Final Question"
+	}
 shuffledArray = shuffleArray( shuffledArray );
 answerside = getRandomInt(2); //this variable will keep shifting around
 var correctanswertext=answers[shuffledArray[answerside]];
-document.getElementById('answerhead').innerHTML=correctanswertext;
+document.getElementById('answerhead').innerHTML=correctanswertext+finalquestion;
 document.getElementById('left').src=shuffledArray[0]+'.png';
 document.getElementById('right').src=shuffledArray[1]+'.png'
 var msg = new SpeechSynthesisUtterance();
-msg.text = correctanswertext;
+msg.text = correctanswertext+finalquestion;
 window.speechSynthesis.speak(msg);
 
 }
@@ -47,27 +65,51 @@ window.speechSynthesis.speak(msg);
 function checkanswer(n){
 if ( n == answerside)
 	 { if (goodjob==true) {
+	 if (lastquestion) {alldone=true}
 	    document.getElementById('score').innerHTML++;
-	    	 	shuffledArray.splice(answerside,1)};
+	    	 	shuffledArray.splice(answerside,1)
+	    	 	};
 	    if(n==0) {$( "#right" ).animate({ opacity: "20%" })} else {$( "#left" ).animate({ opacity: "20%" })}
 	    var msg = new SpeechSynthesisUtterance();msg.text="Good!";window.speechSynthesis.speak(msg);
-	 	setTimeout(initializequestion,1000);
+if (alldone) {alert("done")} else{setTimeout(initializequestion,2000)};
 	 	}
 	 	
 
 else { if(n==0) {$( "#left" ).animate({ opacity: "20%" })} else {$( "#right" ).animate({ opacity: "20%" })};
 goodjob=false;var msg = new SpeechSynthesisUtterance();msg.text="Try again";window.speechSynthesis.speak(msg);} 
 }
-  $( function() {
-    $( "#level" ).selectmenu();
 
-  } );
 </script> 
 
 <div id="selectlevel" style="width:40%; position: fixed;  top: 50%;  left: 50%;  transform: translate(-50%, -50%);"><center><h1>Select level</h1>
-<h2><a href="#" onclick="initializequestion(1)"><span style="opacity:0">0</span>1</a> <span style="opacity:0">0</span>2 <span style="opacity:0">0</span>3 <span style="opacity:0">0</span>4 <span style="opacity:0">0</span>5 <span style="opacity:0">0</span>6 <span style="opacity:0">0</span>7 <span style="opacity:0">0</span>8 <span style="opacity:0">0</span>9<br>
-10 11 12 13 14 15 16 17 18<br>
-19 20 21 22 23 24 25 26 27</h2></center></div>
+<h2>
+<a href="#" onclick="initializegame(2)"><span style="opacity:0">0</span>1</a>
+<a href="#" onclick="initializegame(2)"><span style="opacity:0">0</span>2</a>
+<a href="#" onclick="initializegame(3)"><span style="opacity:0">0</span>3</a>
+<a href="#" onclick="initializegame(4)"><span style="opacity:0">0</span>4</a>
+<a href="#" onclick="initializegame(5)"><span style="opacity:0">0</span>5</a>
+<a href="#" onclick="initializegame(6)"><span style="opacity:0">0</span>6</a>
+<a href="#" onclick="initializegame(7)"><span style="opacity:0">0</span>7</a>
+<a href="#" onclick="initializegame(8)"><span style="opacity:0">0</span>8</a>
+<a href="#" onclick="initializegame(9)"><span style="opacity:0">0</span>9</a><br>
+<a href="#" onclick="initializegame(10)">10</a>
+<a href="#" onclick="initializegame(11)">11</a>
+<a href="#" onclick="initializegame(12)">12</a>
+<a href="#" onclick="initializegame(13)">13</a>
+<a href="#" onclick="initializegame(14)">14</a>
+<a href="#" onclick="initializegame(15)">15</a>
+<a href="#" onclick="initializegame(16)">16</a>
+<a href="#" onclick="initializegame(17)">17</a>
+<a href="#" onclick="initializegame(17)">18</a><br>
+<a href="#" onclick="initializegame(18)">19</a>
+<a href="#" onclick="initializegame(19)">20</a>
+<a href="#" onclick="initializegame(20)">21</a>
+<a href="#" onclick="initializegame(21)">22</a>
+<a href="#" onclick="initializegame(22)">23</a>
+<a href="#" onclick="initializegame(23)">24</a>
+<a href="#" onclick="initializegame(24)">25</a>
+<a href="#" onclick="initializegame(25)">26</a>
+<a href="#" onclick="initializegame(26)">27</a></h2></center></div>
 
 <div style="display:none" id="game">
 <center><h1 id="answerhead">(question)</h1>
@@ -75,15 +117,3 @@ goodjob=false;var msg = new SpeechSynthesisUtterance();msg.text="Try again";wind
 <img id="left" style="max-width:40%;height:auto; border:10px solid green;border-radius:50px" onclick="checkanswer(0)">
 <img id="right" style="max-width:40%;height:auto; border:10px solid green;border-radius:50px" onclick="checkanswer(1)">
 <h1>Score:<span id="score" style="color:blue">0</span></h1></center></div>
-
-<div style="display:none">hi<img src="0.png"><img src="1.png"><img src="2.png"><img src="3.png"><img src="4.png"><img src="5.png"><img src="6.png"><img src="7.png"><img src="8.png"><img src="9.png"><img src="10.png"><img src="11.png"><img src="12.png"><img src="13.png"><img src="14.png"><img src="15.png">
-<img src="16.png">
-<img src="17.png">
-<img src="18.png">
-<img src="19.png">
-<img src="20.png">
-<img src="21.png">
-<img src="22.png">
-<img src="23.png">
-<img src="24.png">
-<img src="25.png"></div>
