@@ -7,9 +7,20 @@ h1 {font-size:10vmin;}
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="jqueryui/jquery-ui.js"></script>
+<script>
+var takeinput = true;
+function keydowntime() {
+if(takeinput)
+{
+	if(event.which==37 || event.which==38){checkanswer(0)}
+	else if (event.which==39 || event.which==40){checkanswer(1)}
+	else return false}
+takeinput=false
+}
+</script>
 <title>Quiz</title>
 </head>
-<body style="font-family:sans-serif" onkeydown="if(event.which==37 || event.which==38) {checkanswer(0)} else if (event.which==39 || event.which==40){checkanswer(1)} else return false">
+<body style="font-family:sans-serif" onkeydown="keydowntime()" onkeyup="takeinput=true">
 <script language="javascript">
 function shuffleArray ( array ){var counter = array.length, temp, index;while ( counter > 0 ) {index = Math.floor( Math.random() * counter );counter--;temp = array[ counter ];array[ counter ] = array[ index ];array[ index ] = temp;}return array;}
 function getRandomInt(max) {return Math.floor(Math.random() * Math.floor(max));}
@@ -89,7 +100,7 @@ setTimeout(window.location.reload.bind(window.location),1000);
 	 	
 
 else { if(n==0) {$( "#left" ).animate({ opacity: "20%" })} else {$( "#right" ).animate({ opacity: "20%" })};
-goodjob=false;var msg = new SpeechSynthesisUtterance();msg.text="Try again";window.speechSynthesis.speak(msg);} 
+if (goodjob){var msg = new SpeechSynthesisUtterance();msg.text="Try again";window.speechSynthesis.speak(msg);};goodjob=false;}
 }
 
 </script> 
