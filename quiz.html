@@ -9,11 +9,13 @@ h1 {font-size:10vmin;}
 <script src="jqueryui/jquery-ui.js"></script>
 <script>
 var takeinput = true;
+var finalanswerthing;
+var lastquestionredux = false;
 function keydowntime() {
 if(takeinput)
 {
-	if(event.which==37 || event.which==38){checkanswer(0)}
-	else if (event.which==39 || event.which==40){checkanswer(1)}
+	if(event.which==37 || event.which==38 || event.which==65){checkanswer(0)}
+	else if (event.which==39 || event.which==40 || event.which==66){checkanswer(1)}
 	else return false}
 takeinput=false
 }
@@ -62,8 +64,8 @@ document.getElementById('right').style.opacity="1";
 goodjob=true;
 if (shuffledArray.length==1) {lastquestion=true};
 if (lastquestion) {
-	var finalanswerthing=shuffledArray[0];
-	mostofit=removeItemOnce(originalArray,shuffledArray[0]);
+	if(lastquestionredux==false){finalanswerthing=shuffledArray[0]}else {shuffledArray=[finalanswerthing]};
+	mostofit=removeItemOnce(originalArray,finalanswerthing);
 	shuffledArray.push(mostofit[Math.floor(Math.random() * mostofit.length)])
 	finalquestion=". Final Question"
 	}
@@ -84,21 +86,20 @@ window.speechSynthesis.speak(msg);
 
 //answer the question
 function checkanswer(n){
-if ( n == answerside)
+if (n == answerside)
 	 { if (goodjob==true) {
-	 if (lastquestion) {alldone=true}
+	    if (lastquestion) {alldone=true}
 	    document.getElementById('score').innerHTML++;
-	    	 	shuffledArray.splice(answerside,1)
-	    	 	};
-	    if(n==0) {$( "#right" ).animate({ opacity: "20%" })} else {$( "#left" ).animate({ opacity: "20%" })}
-	    var msg = new SpeechSynthesisUtterance();msg.text="Good!";window.speechSynthesis.speak(msg);
+	    shuffledArray.splice(answerside,1)
+	    }
+	if (lastquestion==true && goodjob==false){lastquestionredux=true};
+	if(n==0) {$( "#right" ).animate({ opacity: "20%" })} else {$( "#left" ).animate({ opacity: "20%" })}
+	var msg = new SpeechSynthesisUtterance();msg.text="Good!";window.speechSynthesis.speak(msg);
 	if (alldone) {
-setTimeout(window.location.reload.bind(window.location),1000);
+    setTimeout(window.location.reload.bind(window.location),1000);
 	} 
 	else{setTimeout(initializequestion,2000)};
 	 	}
-	 	
-
 else { if(n==0) {$( "#left" ).animate({ opacity: "20%" })} else {$( "#right" ).animate({ opacity: "20%" })};
 if (goodjob){var msg = new SpeechSynthesisUtterance();msg.text="Try again";window.speechSynthesis.speak(msg);};goodjob=false;}
 }
@@ -139,5 +140,5 @@ if (goodjob){var msg = new SpeechSynthesisUtterance();msg.text="Try again";windo
 <center><h1 id="answerhead">(question)</h1>
 <h1 id="smiley"></h1>
 <div style="width:100%;height:60%;background-color:red"><img id="left" style="max-width:40vmin;height:auto;border:10px solid green;border-radius:50px" onclick="checkanswer(0)">
-<img id="right" style="max-width:40vmin;height:auto;border:10px solid green;border-radius:50px" onclick="checkanswer(1)"></div>
+<img id="right" style="max-width:40vmin;height:auto;border:10px solid green;border-radius:50px" onclick="checkanswer(1)"><br><span style="font-size:5vmin">A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B</span></div>
 <h1>Score:<span id="score" style="color:blue">0</span></h1></center></div>
