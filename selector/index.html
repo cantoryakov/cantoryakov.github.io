@@ -1,0 +1,54 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- The random name selector is (c) Primary Technology --  Licensed under the Afero GPL license.  -->
+<script type="text/javascript" src="jquery-latest.min.js"></script>
+
+<!-- nifty and custom JS -->
+<script src="script.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css" />
+
+<title>Random Item</title>
+</head>
+<body onLoad="loadData();">
+<div id="top">
+  <div id=footer><a href="http://primaryt.co.uk">&copy;</a>
+  </div>
+  <div id=countdown></div>
+  <div id=playback></div>
+  <!--div id="logo">
+<h1>Randomizer!</h1>
+  </div-->
+  <form><input class="button" type="button" onClick="namesshow();" value="Change">
+  <input class="button" type="button" onClick="saveload();" value="Save">
+    <select class="option timerselect" id="timeselect">
+      <option value="1" selected>1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+    </select>
+    <select onChange="document.body.style.background=document.getElementById('newSkill').options[document.getElementById('newSkill').selectedIndex].value 
+" class="backgroundpicker" id="newSkill">
+      <option value="yellow" selected>yellow</option>
+      <option value="green">green</option>
+      <option value="blue">blue</option>
+      <option value="red">red</option>
+      <option value="purple">purple</option>
+      <option value="white">white</option>
+    </select></form>
+  <input class="gobutton" type="submit" id="go" onClick="go();" value="Go!">
+<button onclick="document.getElementById("names").style.color='white'">
+</div>
+
+<div id="popdown">
+	<div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
+</div>
+</div>
+<div id=values></div>
+</body>
+</html>
