@@ -85,4 +85,18 @@
   .u-section-2 .u-custom-html-1 {
     height: auto;
   }
+}.u-section-3 .u-sheet-1 {
+  min-height: 804px;
+}
+
+.u-section-3 .u-custom-html-1 {
+  margin-top: 0;
+  margin-bottom: 60px;
+  min-height: 532px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-3 .u-custom-html-1 {
+    height: auto;
+  }
 }
