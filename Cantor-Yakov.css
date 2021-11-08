@@ -143,6 +143,13 @@
   padding: 0;
 }
 
+.u-section-2 .u-btn-10 {
+  background-image: none;
+  text-decoration: underline !important;
+  font-weight: 700;
+  padding: 0;
+}
+
 @media (max-width: 767px) {
   .u-section-2 .u-text-1 {
     margin-bottom: 60px;
