@@ -1,7 +1,7 @@
 body
 {
   overflow-y:hidden;
-  font-family: 'Crafty Girls', arial, serif;
+  font-family: 'Times New Roman';
   background: #fbe34b;
   text-align:center;
   margin: 0 auto;
@@ -95,22 +95,22 @@ a:hover {text-decoration:underline;}
 {
 width:20%;
 font-size:12px;
-font-family:arial, serif;
+font-family:'Times New Roman';
 }
 
 .gobutton {
-  font-family: 'Crafty Girls', arial, serif;
+  font-family:'Times New Roman';
   margin-top:4px;
   width:20%;
   font-size:12px;
 }
 .options {
-  font-family: 'Crafty Girls', arial, serif;
+  font-family:'Times New Roman';
   margin-top:4px;
   font-size:12px;
 }
 .option {
-  font-family: 'Crafty Girls', arial, serif;
+  font-family:'Times New Roman';
   margin-top:4px;
   font-size:12px;
 }
